@@ -8,8 +8,9 @@ using UnityEngine;
 // MeshFilter component on the same game object. If it doesn't exist, the Unity
 // engine will create one automatically.
 [RequireComponent(typeof(MeshFilter))]
-public class GenerateCube : MonoBehaviour
+public class GenerateCone : MonoBehaviour
 {
+    public int a = 0;
     private void Start()
     {
         // First we'll get the MeshFilter attached to this game object, in the
@@ -27,7 +28,7 @@ public class GenerateCube : MonoBehaviour
         // - https://docs.unity3d.com/ScriptReference/Mesh.html
         var mesh = new Mesh
         {
-            name = "Cube"
+            name = "Cone"
         };
 
         // Step 1: Define the vertices. These are "points" in 3D space that
@@ -37,60 +38,37 @@ public class GenerateCube : MonoBehaviour
         // depends on the way the mesh surface itself is defined (step 3).
         mesh.SetVertices(new[]
         {
-            // Top face
-            new Vector3(-1.0f, 1.0f, -1.0f),
-            new Vector3(-1.0f, 1.0f, 1.0f),
-            new Vector3(1.0f, 1.0f, 1.0f),
-            
-            new Vector3(-1.0f, 1.0f, -1.0f),
-            new Vector3(1.0f, 1.0f, 1.0f),
-            new Vector3(1.0f, 1.0f, -1.0f),
+            // Tip
+            new Vector3(0f, 1.0f, 0f),
+            new Vector3(1.0f, -1.0f, -1.0f),
+            new Vector3(-1.0f, -1.0f, -1.0f),
+
 
             // Bottom face
-            new Vector3(-1.0f, -1.0f, -1.0f),
+            new Vector3(0f, 1.0f, 0f),
             new Vector3(1.0f, -1.0f, 1.0f),
-            new Vector3(-1.0f, -1.0f, 1.0f),
-            
-            new Vector3(-1.0f, -1.0f, -1.0f),
             new Vector3(1.0f, -1.0f, -1.0f),
+            
+            new Vector3(0f, 1.0f, 0f),
+            new Vector3(-1.0f, -1.0f, 1.0f),
             new Vector3(1.0f, -1.0f, 1.0f),
 
             // Left face
+            new Vector3(0f, 1.0f, 0f),
             new Vector3(-1.0f, -1.0f, -1.0f),
             new Vector3(-1.0f, -1.0f, 1.0f),
-            new Vector3(-1.0f, 1.0f, 1.0f),
             
             new Vector3(-1.0f, -1.0f, -1.0f),
-            new Vector3(-1.0f, 1.0f, 1.0f),
-            new Vector3(-1.0f, 1.0f, -1.0f),
+            new Vector3(1.0f, -1.0f, -1.0f),
+            new Vector3(-1.0f, -1.0f, 1.0f),
 
             // Right face
             new Vector3(1.0f, -1.0f, -1.0f),
-            new Vector3(1.0f, 1.0f, 1.0f),
             new Vector3(1.0f, -1.0f, 1.0f),
-            
-            new Vector3(1.0f, -1.0f, -1.0f),
-            new Vector3(1.0f, 1.0f, -1.0f),
-            new Vector3(1.0f, 1.0f, 1.0f),
+            new Vector3(-1.0f, -1.0f, 1.0f)
+        
 
-            // Define more vertices here!
-            // forward face
-            new Vector3(-1.0f, 1.0f, -1.0f),
-            new Vector3(1.0f, -1.0f, -1.0f),
-            new Vector3(-1.0f, -1.0f, -1.0f),
-            
-            new Vector3(-1.0f, 1.0f, -1.0f),
-            new Vector3(1.0f, 1.0f, -1.0f),
-            new Vector3(1.0f, -1.0f, -1.0f),
 
-            // backward face
-            new Vector3(-1.0f, -1.0f, 1.0f),
-            new Vector3(1.0f, -1.0f, 1.0f),
-            new Vector3(-1.0f, 1.0f, 1.0f),
-            
-            new Vector3(1.0f, -1.0f, 1.0f),
-            new Vector3(1.0f, 1.0f, 1.0f),
-            new Vector3(-1.0f, 1.0f, 1.0f)
         });
 
         // Step 2: Define the vertex colours. There is a one-to-one index
@@ -102,55 +80,32 @@ public class GenerateCube : MonoBehaviour
             Color.red,
             Color.red,
             Color.red,
-            
-            Color.red,
-            Color.red,
-            Color.red,
 
             // Bottom face
-            Color.red,
-            Color.red,
-            Color.red,
+            Color.blue,
+            Color.blue,
+            Color.blue,
             
-            Color.red,
-            Color.red,
-            Color.red,
+            Color.yellow,
+            Color.yellow,
+            Color.yellow,
 
             // Left face
-            Color.yellow, 
-            Color.yellow,
-            Color.yellow,
+            Color.grey, 
+            Color.grey,
+            Color.grey,
             
-            Color.yellow,
-            Color.yellow,
-            Color.yellow,
+            Color.black,
+            Color.black,
+            Color.black,
 
             // Right face
-            Color.yellow, 
-            Color.yellow,
-            Color.yellow,
-            
-            Color.yellow,
-            Color.yellow,
-            Color.yellow,
+            Color.black, 
+            Color.black,
+            Color.black
 
-            // forward face
-            Color.blue,
-            Color.blue,
-            Color.blue,
 
-            Color.blue,
-            Color.blue,
-            Color.blue,
 
-            // backward face
-            Color.blue,
-            Color.blue,
-            Color.blue,
-
-            Color.blue,
-            Color.blue,
-            Color.blue
             
             // Define more colours here!
         });
@@ -165,7 +120,7 @@ public class GenerateCube : MonoBehaviour
         // Luckily for us this is easy to automate because we already ordered
         // the above vertex and colour arrays just like this! We only need to
         // generate a range of integers from 0 to the # of vertices - 1:
-        var indices = Enumerable.Range(0, mesh.vertices.Length).ToArray(); 
+        var indices = Enumerable.Range(0, mesh.vertices.Length).ToArray();
         mesh.SetIndices(indices, MeshTopology.Triangles, 0);
         
         // Note that the topology argument specifies that we are in fact
